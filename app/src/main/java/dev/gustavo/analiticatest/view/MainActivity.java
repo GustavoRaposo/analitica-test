@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewCounter;
     private TextView textViewStatus;
+    private CardView cardViewEvent;
     private MainViewModel viewModel;
 
     @Override
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         textViewCounter = findViewById(R.id.textCounter);
         textViewStatus = findViewById(R.id.textStatus);
+        cardViewEvent = findViewById(R.id.eventCard);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel.status.observe(this, it -> {
             textViewStatus.setText(it);
+            if(it.equals("Evento indeterminado"))
+                cardViewEvent.setCardBackgroundColor(getResources().getColor(R.color.undeterminedEvent));
+            else cardViewEvent.setCardBackgroundColor(getResources().getColor(R.color.inOperation));
+
         });
         viewModel.getTelemetry();
     }
