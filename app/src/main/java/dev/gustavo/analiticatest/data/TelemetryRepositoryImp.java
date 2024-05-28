@@ -1,5 +1,7 @@
 package dev.gustavo.analiticatest.data;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,7 +50,9 @@ public class TelemetryRepositoryImp implements TelemetryRepository {
         service.saveTelemetry(counter).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                if(response.isSuccessful()){
+                    Log.d("Telemetry Repository", "operation was saved: " + counter);
+                }
             }
 
             @Override
