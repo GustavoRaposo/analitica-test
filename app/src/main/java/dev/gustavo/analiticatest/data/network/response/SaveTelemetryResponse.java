@@ -1,13 +1,7 @@
 package dev.gustavo.analiticatest.data.network.response;
 
-public class SaveTelemetryResponse {
-    private String message;
+public interface SaveTelemetryResponse {
+    void onResponse(String response);
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    void onFailure(Throwable throwable);
 }

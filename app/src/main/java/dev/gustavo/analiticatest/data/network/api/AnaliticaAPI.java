@@ -13,5 +13,5 @@ public interface AnaliticaAPI {
     Call<TelemetryResponse> getTelemetry(@Query("counter") int counter);
 
     @POST("31/in-operation")
-    Call<SaveTelemetryResponse> saveTelemetry(@Query("counter") int counter);
+    Call<String> saveTelemetry(@Query("counter") int counter);
 }
