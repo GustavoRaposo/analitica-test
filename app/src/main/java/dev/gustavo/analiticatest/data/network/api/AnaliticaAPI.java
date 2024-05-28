@@ -1,6 +1,5 @@
 package dev.gustavo.analiticatest.data.network.api;
 
-import dev.gustavo.analiticatest.data.network.response.SaveTelemetryResponse;
 import dev.gustavo.analiticatest.data.network.response.TelemetryResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
