@@ -36,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         viewModel.counter.observe(this, it -> {
-            textViewCounter.setText(it);
+            textViewCounter.setText(it.toString());
+            viewModel.getTelemetry();
+            viewModel.checkStatus(it);
         });
 
         viewModel.status.observe(this, it -> {
             textViewStatus.setText(it);
         });
+        viewModel.getTelemetry();
     }
 }

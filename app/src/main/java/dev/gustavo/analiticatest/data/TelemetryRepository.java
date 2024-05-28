@@ -1,11 +1,10 @@
 package dev.gustavo.analiticatest.data;
 
-import dev.gustavo.analiticatest.data.network.response.GetTelemetryResponse;
-import dev.gustavo.analiticatest.data.network.response.SaveTelemetryResponse;
+import dev.gustavo.analiticatest.data.network.response.TelemetryCallback;
 
 public interface TelemetryRepository {
 
-    void getTelemetry(int counter, GetTelemetryResponse response);
+    void getTelemetry(int counter, TelemetryCallback callback);
 
-    void saveTelemetry(int counter, SaveTelemetryResponse response);
+    void saveOperation(int counter);
 }

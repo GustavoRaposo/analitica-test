@@ -1,14 +1,18 @@
 package dev.gustavo.analiticatest.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import dev.gustavo.analiticatest.data.network.api.AnaliticaAPI;
-import dev.gustavo.analiticatest.data.network.response.GetTelemetryResponse;
-import dev.gustavo.analiticatest.data.network.response.SaveTelemetryResponse;
-import dev.gustavo.analiticatest.data.network.response.TelemetryResponse;
+import dev.gustavo.analiticatest.data.network.response.TelemetryCallback;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TelemetryRepositoryImp implements TelemetryRepository{
+public class TelemetryRepositoryImp implements TelemetryRepository {
 
     private AnaliticaAPI service;
 
@@ -17,30 +21,38 @@ public class TelemetryRepositoryImp implements TelemetryRepository{
     }
 
     @Override
-    public void getTelemetry(int counter, GetTelemetryResponse telemetryResponse) {
-        service.getTelemetry(counter).enqueue(new Callback<TelemetryResponse>() {
+    public void getTelemetry(int counter, TelemetryCallback callback) {
+        service.getTelemetry(counter).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<TelemetryResponse> call, Response<TelemetryResponse> response) {
-
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response.body().string());
+                    } catch (JSONException | IOException e) {
+                        callback.onFail(e);
+                    }
+                    callback.onResponse(jsonObject);
+                } else callback.onFail(new Throwable("Response Fail"));
             }
 
             @Override
-            public void onFailure(Call<TelemetryResponse> call, Throwable throwable) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
 
             }
         });
     }
 
     @Override
-    public void saveTelemetry(int counter, SaveTelemetryResponse response) {
-        service.saveTelemetry(counter).enqueue(new Callback<String>() {
+    public void saveOperation(int counter) {
+        service.saveTelemetry(counter).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable throwable) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
 
             }
         });
